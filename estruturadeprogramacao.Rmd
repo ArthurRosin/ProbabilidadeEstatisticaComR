@@ -1,0 +1,27 @@
+---
+title: "R Notebook - Arthur Rosin"
+output: html_notebook
+---
+
+if/else
+```{r}
+a = readline(prompt = "Digite um número:")
+b = readline(prompt = "Digite um número:")
+a <- as.integer(a)
+b <- as.integer(b)
+
+if(a>b){
+  print("verdadeiro")
+  print(paste("O número",a,"é maior que",b))
+}else{
+  print("falso")
+  print(paste("O número",b,"  é maior que ",a))
+}
+
+c = a + b
+print(paste("A soma é:",c))
+
+```
+
+
+
