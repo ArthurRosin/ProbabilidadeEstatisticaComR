@@ -15,13 +15,36 @@ if(a>b){
   print(paste("O número",a,"é maior que",b))
 }else{
   print("falso")
-  print(paste("O número",b,"  é maior que ",a))
+  print(paste("O número",b," é maior que ",a))
 }
 
 c = a + b
 print(paste("A soma é:",c))
 
 ```
+for
+```{r}
+for(i in 1:a)
+  print(i)
+```
+while
+```{r}
+while(b<a){
+  b=b+1
+  print(b)
+  
+}
 
+if(b>a){
+  print("B é maior que A")
+}
 
-
+```
+função
+```{r}
+parouimpar <- function(x){
+  return(ifelse(x%%2==0,"Número é Par","Número é Ímpar"))
+}
+parouimpar(a)
+parouimpar(b)
+```
