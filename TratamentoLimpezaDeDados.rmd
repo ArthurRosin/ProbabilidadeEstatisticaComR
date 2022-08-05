@@ -1,0 +1,113 @@
+---
+title: "Tratamento e limpeza de dados"
+output: html_notebook
+---
+
+```{r}
+dados = read.csv("churn.csv", sep=";", na.strings="", stringsAsFactors = T)
+head(dados)
+summary(dados)
+```
+
+Colunas
+```{r}
+colnames(dados) = c("Id","Score","Estado","Genero","Idade","Patrimonio","Saldo","Produtos","TemCartCredito","Ativo","Salario","Saiu")
+head(dados)
+```
+Explorando os dados
+```{r}
+#Estados
+counts = table(dados$Estado)
+barplot(counts,main = "Estados", xlab = "Estados")
+#Generos
+counts = table(dados$Genero)
+barplot(counts,main = "Gêneros", xlab = "Gêneros")
+```
+Score
+```{r}
+summary(dados$Score)
+boxplot(dados$Score)
+hist(dados$Score)
+```
+Idade
+```{r}
+summary(dados$Idade)
+boxplot(dados$Idade)
+hist(dados$Idade)
+```
+Saldo
+```{r}
+summary(dados$Saldo)
+boxplot(dados$Saldo)
+hist(dados$Saldo)
+```
+Salario
+```{r}
+summary(dados$Salario)
+boxplot(dados$Salario)
+boxplot(dados$Salario,outline = F)
+```
+valores faltantes
+```{r}
+dados[!complete.cases(dados),]
+```
+###Tratamento dos dados
+Ajustando salários que não foram preenchidos
+```{r}
+summary(dados$Salario)
+#Preeencher os dados faltantes com a mediana
+median(dados$Salario, na.rm = T)
+dados[is.na(dados$Salario),]$Salario = median(dados$Salario, na.rm = T)
+dados[!complete.cases(dados$Salario),]
+```
+Ajustando formatações das siglas de gêneros
+```{r}
+unique(dados$Genero)
+summary(dados$Genero)
+#Trasnformar F, Fem em Feminino - M e NAs em Masculino
+dados[is.na(dados$Genero) | dados$Genero == "M",]$Genero = "Masculino"
+dados[(dados$Genero) == "F" | dados$Genero == "Fem",]$Genero = "Feminino"
+summary(dados$Genero)
+#Remover levels não utilizados
+dados$Genero = factor(dados$Genero)
+summary(dados$Genero)
+```
+Ajustando idades absurdas
+```{r}
+summary(dados$Idade)
+dados[dados$Idade < 10 | dados$Idade > 105,]$Idade
+dados[is.na(dados$Idade),]
+summary(dados$Idade)
+dados[dados$Idade < 10 | dados$Idade > 105 | is.na(dados$Idade),]$Idade = median(dados$Idade)
+dados[dados$Idade < 10 | dados$Idade > 105,]$Idade
+summary(dados$Idade)
+```
+Ajustando Id duplicadas
+```{r}
+summary(dados$Id)
+duplicado = dados[duplicated(dados$Id),]
+print(duplicado)
+dados = dados[-c(82),]
+duplicado = dados[duplicated(dados$Id),]
+print(duplicado)
+```
+Ajustando estados que não existem ou estão fora da área determinada 
+```{r}
+summary(dados$Estado)
+unique(dados$Estado)
+dados[!dados$Estado %in% c("RS","SC","PR"),]$Estado = "RS"
+summary(dados$Estado)
+dados$Estado = factor(dados$Estado)
+summary(dados$Estado)
+```
+Outliers - Ajustando salários fora do desvio padrão
+```{r}
+desvio = sd(dados$Salario, na.rm = T)
+desvio
+dados[dados$Salario >= 2*desvio,]$Salario
+median(dados$Salario)
+dados[dados$Salario >= 2*desvio,]$Salario = median(dados$Salario)
+boxplot(dados$Salario)
+dados[dados$Salario >= 2*desvio,]$Salario
+
+```
