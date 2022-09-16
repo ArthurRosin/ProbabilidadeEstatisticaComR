@@ -1,0 +1,39 @@
+---
+title: "Gráficos básicos"
+output: Arthue Rosin
+---
+
+Histograma
+```{r}
+trees
+hist(trees$Height)
+hist(trees$Height, main ='Árvores', ylab = 'Frenquência', xlab = 'Altura', col = 'blue')
+hist(trees$Height, main ='Árvores', ylab = 'Frenquência', xlab = 'Altura', col = 'blue', density = 20, breaks = 20)
+
+
+```
+Densidade
+```{r}
+
+
+```
+Densidade sobre o histograma, paâmentro par
+```{r}
+
+
+```
+Dispersão
+```{r}
+
+
+```
+
+```{r}
+
+
+```
+
+```{r}
+
+
+```
